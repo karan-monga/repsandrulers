@@ -7,9 +7,7 @@ import {
   Clock, 
   BarChart3, 
   Settings, 
-  X,
-  Ruler,
-  Activity
+  X
 } from 'lucide-react';
 import { ActiveTab } from './Dashboard';
 
@@ -42,13 +40,16 @@ export function Sidebar({ activeTab, onTabChange, isOpen, onClose }: SidebarProp
         isOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-[#2e2e2e]">
-          <div className="flex items-center space-x-2">
-            <div className="bg-primary-500 p-2 rounded-lg">
-              <Ruler className="w-5 h-5 text-white" />
-            </div>
-            <Activity className="w-5 h-5 text-primary-500" />
+          <button
+            onClick={() => {
+              onTabChange('dashboard');
+              onClose();
+            }}
+            className="flex items-center space-x-2 hover:opacity-80 transition-opacity cursor-pointer"
+          >
+            <img src="/logo.jpg" alt="Logo" className="w-8 h-8 rounded" />
             <span className="font-bold text-gray-900 dark:text-gray-100">Reps & Rulers</span>
-          </div>
+          </button>
           <button
             onClick={onClose}
             className="lg:hidden p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-[#262626]"
