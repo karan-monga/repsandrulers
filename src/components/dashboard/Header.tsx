@@ -34,9 +34,12 @@ export function Header({ activeTab, onMenuClick }: HeaderProps) {
           >
             <Menu className="w-5 h-5 dark:text-gray-300" />
           </button>
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {tabTitles[activeTab]}
-          </h1>
+          <div className="flex items-center space-x-3">
+            <img src="/logo.jpg" alt="Logo" className="w-8 h-8 rounded" />
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+              {tabTitles[activeTab]}
+            </h1>
+          </div>
         </div>
         
         <div className="flex items-center space-x-4">

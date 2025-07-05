@@ -13,11 +13,8 @@ export function AuthScreen() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="bg-primary-500 p-2 rounded-lg">
-              <Ruler className="w-6 h-6 text-white" />
-            </div>
-            <Activity className="w-6 h-6 text-primary-500" />
+          <div className="flex items-center justify-center mb-4">
+            <img src="/logo.jpg" alt="Reps & Rulers Logo" className="w-12 h-12 rounded-lg" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Reps & Rulers</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">Measure every rep, rule every change</p>
