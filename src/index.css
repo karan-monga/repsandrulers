@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-[#2e2e2e];
+  }
+  
+  body {
+    @apply bg-gray-50 dark:bg-[#171717] text-gray-900 dark:text-gray-100;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500 shadow-sm;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-white dark:bg-[#171717] text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-[#2e2e2e] hover:bg-gray-50 dark:hover:bg-[#262626] focus:ring-gray-500 shadow-sm;
+  }
+  
+  .btn-ghost {
+    @apply btn text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#262626] focus:ring-gray-500;
+  }
+  
+  .input {
+    @apply block w-full rounded-lg border border-gray-300 dark:border-[#2e2e2e] px-3 py-2 text-sm placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-[#171717] text-gray-900 dark:text-gray-100 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 disabled:bg-gray-50 dark:disabled:bg-[#262626] disabled:cursor-not-allowed;
+  }
+  
+  .card {
+    @apply rounded-xl bg-white dark:bg-[#171717] p-6 shadow-sm border border-gray-200 dark:border-[#2e2e2e];
+  }
+  
+  .metric-card {
+    @apply card hover:shadow-md transition-shadow duration-200 cursor-pointer;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
