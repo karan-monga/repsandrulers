@@ -230,7 +230,7 @@ export const routineApi = {
   },
 
   // Reorder exercises in a routine day
-  async reorderExercises(routineDayId: string, exerciseIds: string[]): Promise<void> {
+  async reorderExercises(_routineDayId: string, exerciseIds: string[]): Promise<void> {
     const updates = exerciseIds.map((id, index) => ({
       id,
       position: index + 1,

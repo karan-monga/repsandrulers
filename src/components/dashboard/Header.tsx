@@ -18,6 +18,8 @@ const tabTitles = {
   add: 'Add Measurement',
   timeline: 'Timeline',
   charts: 'Progress Charts',
+  library: 'Exercise Library',
+  routines: 'My Routines',
   settings: 'Settings',
 };
 

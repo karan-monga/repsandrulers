@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { Exercise, Routine } from '@/types/exercise';
+import { Exercise } from '@/types/exercise';
 import { routineApi } from '@/lib/exerciseApi';
 import { X, Plus, Check } from 'lucide-react';
 

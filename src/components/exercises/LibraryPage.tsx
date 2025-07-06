@@ -32,11 +32,6 @@ export function LibraryPage() {
 
   const { data: muscleGroups = [] } = useMuscleGroups();
 
-  const handleExerciseClick = (exercise: Exercise) => {
-    setSelectedExercise(exercise);
-    setShowModal(true);
-  };
-
   const handleAddToRoutine = (exercise: Exercise) => {
     setSelectedExercise(exercise);
     setShowRoutinePicker(true);

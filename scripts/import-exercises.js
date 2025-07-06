@@ -1,6 +1,10 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const { createClient } = require('@supabase/supabase-js');
+import fs from 'fs';
+import csv from 'csv-parser';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Initialize Supabase client
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
@@ -81,16 +85,12 @@ async function importExercises() {
 }
 
 // Run the import
-if (require.main === module) {
-  importExercises()
-    .then(() => {
-      console.log('Import script completed');
-      process.exit(0);
-    })
-    .catch((error) => {
-      console.error('Import script failed:', error);
-      process.exit(1);
-    });
-}
-
-module.exports = { importExercises }; 
+importExercises()
+  .then(() => {
+    console.log('Import script completed');
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error('Import script failed:', error);
+    process.exit(1);
+  }); 
