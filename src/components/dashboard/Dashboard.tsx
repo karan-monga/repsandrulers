@@ -58,6 +58,7 @@ export function Dashboard() {
         <Header
           activeTab={activeTab}
           onMenuClick={() => setSidebarOpen(true)}
+          onTabChange={setActiveTab}
         />
         
         <main className="flex-1 overflow-auto p-6">

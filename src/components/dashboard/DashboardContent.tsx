@@ -2,7 +2,7 @@
 
 import { Scale, TrendingUp, Plus } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { formatMeasurement } from '@/lib/calculations';
+import { formatMeasurement, calculateBMI, getBMICategory } from '@/lib/calculations';
 import { WeightGoalComponent } from '@/components/goals/WeightGoal';
 
 interface DashboardContentProps {
@@ -91,21 +91,29 @@ export function DashboardContent({ onAddMeasurement }: DashboardContentProps) {
 
         <div className="card">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Height</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">BMI</h3>
             <div className="bg-green-100 dark:bg-green-900/20 p-2 rounded-lg">
               <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
           </div>
           <div className="space-y-2">
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {latestMeasurement?.height ? 
-                formatMeasurement(latestMeasurement.height, userProfile?.unit_preference || 'metric', 'length') :
-                'N/A'
-              }
-            </p>
-            <p className="text-sm text-green-600 dark:text-green-400 font-medium">
-              {latestMeasurement?.height ? 'Current height' : 'Add height'}
-            </p>
+            {latestMeasurement?.weight && latestMeasurement?.height ? (
+              <>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {calculateBMI(latestMeasurement.weight, latestMeasurement.height)}
+                </p>
+                <p className={`text-sm font-medium ${getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height)).color}`}>
+                  {getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height)).category}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">N/A</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                  Add weight & height
+                </p>
+              </>
+            )}
           </div>
         </div>
 

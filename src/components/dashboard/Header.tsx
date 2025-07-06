@@ -1,14 +1,16 @@
 'use client';
 
-import { Menu, Bell, ChevronDown, Sun, Moon } from 'lucide-react';
+import { Menu, ChevronDown, Sun, Moon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { ActiveTab } from './Dashboard';
+import { NotificationDropdown } from '@/components/ui/NotificationDropdown';
 import { useState } from 'react';
 
 interface HeaderProps {
   activeTab: ActiveTab;
   onMenuClick: () => void;
+  onTabChange: (tab: ActiveTab) => void;
 }
 
 const tabTitles = {
@@ -19,7 +21,7 @@ const tabTitles = {
   settings: 'Settings',
 };
 
-export function Header({ activeTab, onMenuClick }: HeaderProps) {
+export function Header({ activeTab, onMenuClick, onTabChange }: HeaderProps) {
   const { userProfile, logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -54,10 +56,7 @@ export function Header({ activeTab, onMenuClick }: HeaderProps) {
             )}
           </button>
           
-          <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#262626] relative">
-            <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full"></span>
-          </button>
+          <NotificationDropdown />
           
           <div className="relative">
             <button
@@ -71,10 +70,10 @@ export function Header({ activeTab, onMenuClick }: HeaderProps) {
               </div>
               <div className="text-left hidden sm:block">
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  {userProfile?.email || 'User'}
+                  {userProfile?.email ? userProfile.email.split('@')[0] : 'User'}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {userProfile?.email}
+                  {userProfile?.email || 'No email'}
                 </p>
               </div>
               <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400" />
@@ -85,7 +84,7 @@ export function Header({ activeTab, onMenuClick }: HeaderProps) {
                 <button
                   onClick={() => {
                     setShowDropdown(false);
-                    // Navigate to settings - you might want to add this functionality
+                    onTabChange('settings');
                   }}
                   className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#262626]"
                 >

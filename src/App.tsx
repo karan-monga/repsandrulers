@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import { useAuth } from './contexts/AuthContext';
 import { AuthScreen } from './components/auth/AuthScreen';
 import { Dashboard } from './components/dashboard/Dashboard';
@@ -41,9 +42,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </NotificationProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
