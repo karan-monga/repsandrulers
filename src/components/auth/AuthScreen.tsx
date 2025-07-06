@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { SignInForm } from './SignInForm';
 import { SignUpForm } from './SignUpForm';
-import { Ruler, Activity } from 'lucide-react';
 
 export function AuthScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
