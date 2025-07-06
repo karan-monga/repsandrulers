@@ -31,7 +31,10 @@ export function Dashboard() {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <DashboardContent onAddMeasurement={() => setActiveTab('add')} />;
+        return <DashboardContent 
+          onAddMeasurement={() => setActiveTab('add')} 
+          onNavigateToSettings={() => setActiveTab('settings')}
+        />;
       case 'add':
         return <AddMeasurement onComplete={() => setActiveTab('dashboard')} />;
       case 'timeline':
@@ -41,7 +44,10 @@ export function Dashboard() {
       case 'settings':
         return <Settings />;
       default:
-        return <DashboardContent onAddMeasurement={() => setActiveTab('add')} />;
+        return <DashboardContent 
+          onAddMeasurement={() => setActiveTab('add')} 
+          onNavigateToSettings={() => setActiveTab('settings')}
+        />;
     }
   };
 

@@ -12,6 +12,8 @@ export function Settings() {
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
     unit_preference: userProfile?.unit_preference || 'metric',
+    height: userProfile?.height?.toString() || '',
+    weight: userProfile?.weight?.toString() || '',
   });
   const [saving, setSaving] = useState(false);
 
@@ -31,7 +33,12 @@ export function Settings() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await updateProfile(formData);
+      const profileData = {
+        ...formData,
+        height: formData.height ? parseFloat(formData.height) : null,
+        weight: formData.weight ? parseFloat(formData.weight) : null,
+      };
+      await updateProfile(profileData);
     } catch (error) {
       console.error('Error updating profile:', error);
     } finally {
@@ -124,6 +131,44 @@ export function Settings() {
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     This affects how measurements are displayed throughout the app
                   </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Height ({formData.unit_preference === 'metric' ? 'cm' : 'in'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      name="height"
+                      value={formData.height}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder={formData.unit_preference === 'metric' ? '170' : '67'}
+                    />
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Used for BMI calculations
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Weight ({formData.unit_preference === 'metric' ? 'kg' : 'lbs'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      name="weight"
+                      value={formData.weight}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder={formData.unit_preference === 'metric' ? '70' : '154'}
+                    />
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      Your current weight for reference
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

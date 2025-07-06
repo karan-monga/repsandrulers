@@ -1,15 +1,16 @@
 'use client';
 
-import { Scale, TrendingUp, Plus } from 'lucide-react';
+import { Scale, TrendingUp, Plus, Download } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { formatMeasurement, calculateBMI, getBMICategory } from '@/lib/calculations';
 import { WeightGoalComponent } from '@/components/goals/WeightGoal';
 
 interface DashboardContentProps {
   onAddMeasurement: () => void;
+  onNavigateToSettings?: () => void;
 }
 
-export function DashboardContent({ onAddMeasurement }: DashboardContentProps) {
+export function DashboardContent({ onAddMeasurement, onNavigateToSettings }: DashboardContentProps) {
   const { userProfile, measurements } = useAuth();
 
   // Sort measurements by date (newest first)
@@ -54,14 +55,25 @@ export function DashboardContent({ onAddMeasurement }: DashboardContentProps) {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
           <p className="text-gray-600 dark:text-gray-400">Track your fitness progress</p>
         </div>
-        <button
-          onClick={onAddMeasurement}
-          className="btn-primary flex items-center space-x-2"
-          data-tour="add-measurement"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add Measurement</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          {onNavigateToSettings && (
+            <button
+              onClick={onNavigateToSettings}
+              className="btn-secondary flex items-center space-x-2"
+            >
+              <Download className="w-4 h-4" />
+              <span>Export Data</span>
+            </button>
+          )}
+          <button
+            onClick={onAddMeasurement}
+            className="btn-primary flex items-center space-x-2"
+            data-tour="add-measurement"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add Measurement</span>
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -97,13 +109,13 @@ export function DashboardContent({ onAddMeasurement }: DashboardContentProps) {
             </div>
           </div>
           <div className="space-y-2">
-            {latestMeasurement?.weight && latestMeasurement?.height ? (
+            {latestMeasurement?.weight && (latestMeasurement?.height || userProfile?.height) ? (
               <>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {calculateBMI(latestMeasurement.weight, latestMeasurement.height)}
+                  {calculateBMI(latestMeasurement.weight, latestMeasurement.height || userProfile?.height || 0)}
                 </p>
-                <p className={`text-sm font-medium ${getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height)).color}`}>
-                  {getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height)).category}
+                <p className={`text-sm font-medium ${getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height || userProfile?.height || 0)).color}`}>
+                  {getBMICategory(calculateBMI(latestMeasurement.weight, latestMeasurement.height || userProfile?.height || 0)).category}
                 </p>
               </>
             ) : (

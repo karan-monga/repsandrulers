@@ -11,6 +11,8 @@ export function SignUpForm() {
     password: '',
     confirmPassword: '',
     unitPreference: 'metric' as 'metric' | 'imperial',
+    height: '',
+    weight: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +35,9 @@ export function SignUpForm() {
     }
 
     try {
-      await signUp(formData.email, formData.password, formData.unitPreference);
+      const height = formData.height ? parseFloat(formData.height) : undefined;
+      const weight = formData.weight ? parseFloat(formData.weight) : undefined;
+      await signUp(formData.email, formData.password, formData.unitPreference, height, weight);
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
     } finally {
@@ -83,6 +87,40 @@ export function SignUpForm() {
             <option value="metric">Metric (kg, cm)</option>
             <option value="imperial">Imperial (lbs, feet)</option>
           </select>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="height" className="block text-sm font-medium text-gray-700 mb-1">
+              Height ({formData.unitPreference === 'metric' ? 'cm' : 'in'}) (Optional)
+            </label>
+            <input
+              id="height"
+              name="height"
+              type="number"
+              step="0.1"
+              value={formData.height}
+              onChange={handleInputChange}
+              className="input"
+              placeholder={formData.unitPreference === 'metric' ? '170' : '67'}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="weight" className="block text-sm font-medium text-gray-700 mb-1">
+              Weight ({formData.unitPreference === 'metric' ? 'kg' : 'lbs'}) (Optional)
+            </label>
+            <input
+              id="weight"
+              name="weight"
+              type="number"
+              step="0.1"
+              value={formData.weight}
+              onChange={handleInputChange}
+              className="input"
+              placeholder={formData.unitPreference === 'metric' ? '70' : '154'}
+            />
+          </div>
         </div>
 
         <div>

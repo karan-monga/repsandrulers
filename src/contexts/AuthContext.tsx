@@ -8,6 +8,8 @@ export interface UserProfile {
   id: string;
   email: string;
   unit_preference: 'metric' | 'imperial';
+  height: number | null;
+  weight: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -60,7 +62,7 @@ interface AuthContextType {
   weightGoal: WeightGoal | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, unitPreference: 'metric' | 'imperial') => Promise<void>;
+  signUp: (email: string, password: string, unitPreference: 'metric' | 'imperial', height?: number, weight?: number) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (profile: Partial<UserProfile>) => Promise<void>;
@@ -182,6 +184,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 id: userId,
                 email: user?.email || '',
                 unit_preference: 'metric',
+                height: null,
+                weight: null,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
               });
@@ -198,6 +202,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               id: userId,
               email: user?.email || '',
               unit_preference: 'metric',
+              height: null,
+              weight: null,
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
             });
@@ -209,6 +215,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           id: userId,
           email: user?.email || '',
           unit_preference: 'metric',
+          height: null,
+          weight: null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         });
@@ -224,6 +232,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: userId,
         email: user?.email || '',
         unit_preference: 'metric',
+        height: null,
+        weight: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
@@ -276,7 +286,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, unitPreference: 'metric' | 'imperial') => {
+  const signUp = async (email: string, password: string, unitPreference: 'metric' | 'imperial', height?: number, weight?: number) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -294,6 +304,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           id: data.user.id,
           email: data.user.email!,
           unit_preference: unitPreference,
+          height: height || null,
+          weight: weight || null,
         });
 
       if (profileError) {

@@ -13,6 +13,7 @@ interface CSVRow {
 interface MappedData {
   date: string;
   weight: number;
+  height: number | null;
   measurements: {
     neck: number;
     chest: number;
@@ -31,6 +32,7 @@ interface MappedData {
 interface ColumnMapping {
   date: string;
   weight: string;
+  height: string;
   neck: string;
   chest: string;
   waist: string;
@@ -52,6 +54,7 @@ export function CSVImport() {
   const [columnMapping, setColumnMapping] = useState<ColumnMapping>({
     date: '',
     weight: '',
+    height: '',
     neck: '',
     chest: '',
     waist: '',
@@ -174,6 +177,14 @@ export function CSVImport() {
           return;
         }
 
+        // Parse height (optional)
+        const heightStr = row[columnMapping.height];
+        const height = heightStr ? parseFloat(heightStr) : null;
+        if (heightStr && (isNaN(height!) || height! <= 0)) {
+          newErrors.push(`Row ${index + 2}: Invalid height value`);
+          return;
+        }
+
         // Parse measurements
         const measurements = {
           neck: parseFloat(row[columnMapping.neck] || '0') || 0,
@@ -193,6 +204,7 @@ export function CSVImport() {
         mapped.push({
           date: date.toISOString().split('T')[0],
           weight,
+          height,
           measurements,
           notes: notes || undefined
         });
@@ -232,7 +244,7 @@ export function CSVImport() {
           await addMeasurement({
             date: data.date,
             weight: data.weight,
-            height: null, // Height not available in old format
+            height: data.height, // Use imported height if available
             chest: data.measurements?.chest,
             waist: data.measurements?.waist,
             hips: data.measurements?.hips,
@@ -272,6 +284,7 @@ export function CSVImport() {
     setColumnMapping({
       date: '',
       weight: '',
+      height: '',
       neck: '',
       chest: '',
       waist: '',
@@ -369,6 +382,20 @@ export function CSVImport() {
           <select
             value={columnMapping.weight}
             onChange={(e) => updateColumnMapping('weight', e.target.value)}
+            className="input"
+          >
+            <option value="">Select column</option>
+            {headers.map(header => (
+              <option key={header} value={header}>{header}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Height (Optional)</label>
+          <select
+            value={columnMapping.height}
+            onChange={(e) => updateColumnMapping('height', e.target.value)}
             className="input"
           >
             <option value="">Select column</option>
