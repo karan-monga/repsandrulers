@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { User, Download, Bell, Shield, Save, Upload, RotateCcw, Trash2 } from 'lucide-react';
 import { resetOnboarding } from '../onboarding/Onboarding';
 import { CSVImport } from '../import/CSVImport';
+import { CSVExport } from '../export/CSVExport';
 
 export function Settings() {
   const { userProfile, updateProfile, logout } = useAuth();
@@ -17,6 +18,7 @@ export function Settings() {
   const tabs = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'import', label: 'Import Data', icon: Upload },
+    { id: 'export', label: 'Export Data', icon: Download },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'data', label: 'Data & Privacy', icon: Shield },
   ];
@@ -39,19 +41,7 @@ export function Settings() {
 
 
 
-  const handleExportData = () => {
-    // TODO: Implement CSV export
-    const csvData = 'Date,Weight,BMI\n2024-01-15,75.5,22.4\n';
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'reps-rulers-data.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+
 
   const handleResetOnboarding = () => {
     if (window.confirm('Reset the onboarding tour? This will show the tour again on your next visit.')) {
@@ -143,6 +133,10 @@ export function Settings() {
             <CSVImport />
           )}
 
+          {activeTab === 'export' && (
+            <CSVExport />
+          )}
+
           {activeTab === 'notifications' && (
             <div className="card">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Notification Settings</h2>
@@ -186,21 +180,6 @@ export function Settings() {
 
           {activeTab === 'data' && (
             <div className="space-y-6">
-              <div className="card">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Data Export</h2>
-                <div className="space-y-4">
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Export all your measurement data, photos, and progress history in CSV format.
-                  </p>
-                  <button
-                    onClick={handleExportData}
-                    className="btn-primary flex items-center space-x-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    <span>Export Data</span>
-                  </button>
-                </div>
-              </div>
 
               <div className="card">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Account Actions</h2>
