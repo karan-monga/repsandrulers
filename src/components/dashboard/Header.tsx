@@ -18,6 +18,7 @@ const tabTitles = {
   add: 'Add Measurement',
   timeline: 'Timeline',
   charts: 'Progress Charts',
+  renpho: 'Renpho Data',
   library: 'Exercise Library',
   routines: 'My Routines',
   settings: 'Settings',

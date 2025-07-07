@@ -9,7 +9,8 @@ import {
   Settings, 
   X,
   Dumbbell,
-  Calendar
+  Calendar,
+  Scale
 } from 'lucide-react';
 import { ActiveTab } from './Dashboard';
 
@@ -25,6 +26,7 @@ const navigation = [
   { id: 'add', name: 'Add Measurement', icon: Plus },
   { id: 'timeline', name: 'Timeline', icon: Clock },
   { id: 'charts', name: 'Charts', icon: BarChart3 },
+  { id: 'renpho', name: 'Renpho Data', icon: Scale },
   { id: 'library', name: 'Exercise Library', icon: Dumbbell },
   { id: 'routines', name: 'My Routines', icon: Calendar },
   { id: 'settings', name: 'Settings', icon: Settings },

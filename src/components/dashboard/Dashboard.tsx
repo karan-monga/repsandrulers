@@ -9,9 +9,10 @@ import { Timeline } from '../timeline/Timeline';
 import { Charts } from '../charts/Charts';
 import { Settings } from '../settings/Settings';
 import { LibraryPage } from '../exercises/LibraryPage';
+import { RenphoDashboard } from '../renpho/RenphoDashboard';
 import { Onboarding, isOnboardingCompleted } from '../onboarding/Onboarding';
 
-export type ActiveTab = 'dashboard' | 'add' | 'timeline' | 'charts' | 'library' | 'routines' | 'settings';
+export type ActiveTab = 'dashboard' | 'add' | 'timeline' | 'charts' | 'renpho' | 'library' | 'routines' | 'settings';
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -42,6 +43,8 @@ export function Dashboard() {
         return <Timeline />;
       case 'charts':
         return <Charts />;
+      case 'renpho':
+        return <RenphoDashboard />;
       case 'library':
         return <LibraryPage />;
       case 'routines':
