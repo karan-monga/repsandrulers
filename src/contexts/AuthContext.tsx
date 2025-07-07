@@ -136,6 +136,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             await Promise.race([loadPromise, timeoutPromise]);
             const endTime = Date.now();
             console.log(`Finished loading user data in ${endTime - startTime}ms`);
+            
+            // Update profile with pending unit preference if exists
+            const pendingUnitPreference = sessionStorage.getItem('pendingUnitPreference');
+            if (pendingUnitPreference && (pendingUnitPreference === 'metric' || pendingUnitPreference === 'imperial')) {
+              try {
+                const { error } = await supabase
+                  .from('profiles')
+                  .update({ unit_preference: pendingUnitPreference })
+                  .eq('id', session.user.id);
+                
+                if (!error) {
+                  sessionStorage.removeItem('pendingUnitPreference');
+                  // Refresh profile data
+                  await loadUserProfile(session.user.id);
+                }
+              } catch (err) {
+                console.error('Error updating profile with unit preference:', err);
+              }
+            }
           } catch (error) {
             console.error('Error loading user data:', error);
           }
@@ -296,25 +315,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw error;
     }
 
-    // Create profile manually if user was created successfully
+    // Store unit preference in session storage to update profile later
     if (data.user) {
-      try {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: data.user.id,
-            email: data.user.email!,
-            unit_preference: unitPreference,
-          });
-
-        if (profileError) {
-          console.error('Error creating profile:', profileError);
-          // Don't throw error here - user is still created
-        }
-      } catch (err) {
-        console.error('Error creating profile after signup:', err);
-        // Don't throw error here - user is still created
-      }
+      sessionStorage.setItem('pendingUnitPreference', unitPreference);
     }
   };
 
