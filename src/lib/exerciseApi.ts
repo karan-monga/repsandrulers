@@ -98,9 +98,19 @@ export const routineApi = {
 
   // Create new routine
   async createRoutine(data: CreateRoutineData): Promise<Routine> {
+    // Get the current user to ensure we have the user_id
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (userError || !user) {
+      throw new Error('User not authenticated');
+    }
+
     const { data: routine, error } = await supabase
       .from('routines')
-      .insert(data)
+      .insert({
+        ...data,
+        user_id: user.id
+      })
       .select()
       .single();
 
