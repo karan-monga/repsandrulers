@@ -296,21 +296,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw error;
     }
 
+    // The database trigger will automatically create the profile
+    // We'll update it with additional preferences after signup
     if (data.user) {
-      // Create user profile
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: data.user.id,
-          email: data.user.email!,
-          unit_preference: unitPreference,
-          height: height || null,
-          weight: weight || null,
-        });
+      const userId = data.user.id;
+      // Wait a moment for the trigger to create the profile
+      setTimeout(async () => {
+        try {
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .update({
+              unit_preference: unitPreference,
+              height: height || null,
+              weight: weight || null,
+            })
+            .eq('id', userId);
 
-      if (profileError) {
-        console.error('Error creating profile:', profileError);
-      }
+          if (profileError) {
+            console.error('Error updating profile:', profileError);
+          }
+        } catch (err) {
+          console.error('Error updating profile after signup:', err);
+        }
+      }, 1000);
     }
   };
 
