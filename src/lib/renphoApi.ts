@@ -95,6 +95,12 @@ export const renphoApi = {
           body_water_percent: 0,
           bmr_kcal: 0,
           metabolic_age: 0,
+          fat_free_body_weight_lb: 0,
+          subcutaneous_fat_percent: 0,
+          visceral_fat: 0,
+          skeletal_muscle_percent: 0,
+          bone_mass_lb: 0,
+          protein_percent: 0,
         },
         trends: {
           weight_lb: 0,
@@ -114,6 +120,12 @@ export const renphoApi = {
       body_water_percent: measurements.filter(m => m.body_water_percent).reduce((sum, m) => sum + (m.body_water_percent || 0), 0) / measurements.filter(m => m.body_water_percent).length || 0,
       bmr_kcal: measurements.filter(m => m.bmr_kcal).reduce((sum, m) => sum + (m.bmr_kcal || 0), 0) / measurements.filter(m => m.bmr_kcal).length || 0,
       metabolic_age: measurements.filter(m => m.metabolic_age).reduce((sum, m) => sum + (m.metabolic_age || 0), 0) / measurements.filter(m => m.metabolic_age).length || 0,
+      fat_free_body_weight_lb: measurements.filter(m => m.fat_free_body_weight_lb).reduce((sum, m) => sum + (m.fat_free_body_weight_lb || 0), 0) / measurements.filter(m => m.fat_free_body_weight_lb).length || 0,
+      subcutaneous_fat_percent: measurements.filter(m => m.subcutaneous_fat_percent).reduce((sum, m) => sum + (m.subcutaneous_fat_percent || 0), 0) / measurements.filter(m => m.subcutaneous_fat_percent).length || 0,
+      visceral_fat: measurements.filter(m => m.visceral_fat).reduce((sum, m) => sum + (m.visceral_fat || 0), 0) / measurements.filter(m => m.visceral_fat).length || 0,
+      skeletal_muscle_percent: measurements.filter(m => m.skeletal_muscle_percent).reduce((sum, m) => sum + (m.skeletal_muscle_percent || 0), 0) / measurements.filter(m => m.skeletal_muscle_percent).length || 0,
+      bone_mass_lb: measurements.filter(m => m.bone_mass_lb).reduce((sum, m) => sum + (m.bone_mass_lb || 0), 0) / measurements.filter(m => m.bone_mass_lb).length || 0,
+      protein_percent: measurements.filter(m => m.protein_percent).reduce((sum, m) => sum + (m.protein_percent || 0), 0) / measurements.filter(m => m.protein_percent).length || 0,
     };
 
     // Calculate trends (change from first to last measurement)

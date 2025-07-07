@@ -122,9 +122,9 @@ export function RenphoDashboard() {
                 value={filters.dateRange?.start || ''}
                 onChange={(e) => setFilters(prev => ({
                   ...prev,
-                  dateRange: { 
-                    start: e.target.value,
-                    end: prev.dateRange?.end 
+                  dateRange: {
+                    start: e.target.value || undefined,
+                    end: prev.dateRange?.end || undefined
                   }
                 }))}
                 className="input"
@@ -140,9 +140,9 @@ export function RenphoDashboard() {
                 value={filters.dateRange?.end || ''}
                 onChange={(e) => setFilters(prev => ({
                   ...prev,
-                  dateRange: { 
-                    start: prev.dateRange?.start,
-                    end: e.target.value 
+                  dateRange: {
+                    start: prev.dateRange?.start || undefined,
+                    end: e.target.value || undefined
                   }
                 }))}
                 className="input"
