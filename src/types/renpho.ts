@@ -21,8 +21,8 @@ export interface RenphoMeasurement {
 
 export interface RenphoFilters {
   dateRange?: {
-    start: string;
-    end: string;
+    start?: string;
+    end?: string;
   };
   minWeight?: number;
   maxWeight?: number;
@@ -46,6 +46,12 @@ export interface RenphoStats {
     body_water_percent: number;
     bmr_kcal: number;
     metabolic_age: number;
+    fat_free_body_weight_lb: number;
+    subcutaneous_fat_percent: number;
+    visceral_fat: number;
+    skeletal_muscle_percent: number;
+    bone_mass_lb: number;
+    protein_percent: number;
   };
   trends: {
     weight_lb: number;

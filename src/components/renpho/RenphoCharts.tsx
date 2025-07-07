@@ -6,7 +6,6 @@ import { RenphoMeasurement, RenphoFilters } from '@/types/renpho';
 
 interface RenphoChartsProps {
   measurements: RenphoMeasurement[];
-  filters?: RenphoFilters;
 }
 
 const chartTypes = [
@@ -18,9 +17,7 @@ const chartTypes = [
   { id: 'bmr', name: 'BMR', color: '#F59E0B' },
 ];
 
-const chartColors = ['#3B82F6', '#EF4444', '#10B981', '#06B6D4', '#8B5CF6', '#F59E0B'];
-
-export function RenphoCharts({ measurements, filters }: RenphoChartsProps) {
+export function RenphoCharts({ measurements }: RenphoChartsProps) {
   const [selectedChart, setSelectedChart] = useState('weight');
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
 
