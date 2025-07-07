@@ -5,7 +5,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Mail, Lock, Chrome } from 'lucide-react';
 
-export function SignUpForm() {
+interface SignUpFormProps {
+  onSwitchToSignIn: () => void;
+}
+
+export function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,6 +20,8 @@ export function SignUpForm() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [signupEmail, setSignupEmail] = useState('');
   const { signUp, signInWithGoogle } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -36,6 +42,8 @@ export function SignUpForm() {
 
     try {
       await signUp(formData.email, formData.password, formData.unitPreference);
+      setSignupEmail(formData.email);
+      setShowConfirmation(true);
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
     } finally {
@@ -63,13 +71,60 @@ export function SignUpForm() {
         <p className="text-gray-600 mt-1">Start your fitness journey today</p>
       </div>
 
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
-          {error}
+      {showConfirmation ? (
+        <div className="text-center space-y-4">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Mail className="w-6 h-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-green-800 mb-2">Check your email!</h3>
+            <p className="text-green-700 mb-4">
+              We've sent a confirmation link to <strong>{signupEmail}</strong>
+            </p>
+            <p className="text-sm text-green-600">
+              Click the link in your email to verify your account and start tracking your fitness journey.
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            <p className="text-sm text-gray-600">
+              Didn't receive the email? Check your spam folder or try signing up again.
+            </p>
+            <div className="flex flex-col space-y-2">
+              <button
+                onClick={() => {
+                  setShowConfirmation(false);
+                  setFormData({
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    unitPreference: 'metric',
+                    height: '',
+                    weight: '',
+                  });
+                }}
+                className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+              >
+                Try again with a different email
+              </button>
+              <button
+                onClick={onSwitchToSignIn}
+                className="text-sm text-gray-600 hover:text-gray-700 font-medium"
+              >
+                Back to sign in
+              </button>
+            </div>
+          </div>
         </div>
-      )}
+      ) : (
+        <>
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="unitPreference" className="block text-sm font-medium text-gray-700 mb-1">
             Unit Preference
@@ -196,14 +251,16 @@ export function SignUpForm() {
         </div>
       </div>
 
-      <button
-        onClick={handleGoogleSignIn}
-        disabled={loading}
-        className="btn-secondary w-full flex items-center justify-center space-x-2"
-      >
-        <Chrome className="w-4 h-4" />
-        <span>Google</span>
-      </button>
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="btn-secondary w-full flex items-center justify-center space-x-2"
+          >
+            <Chrome className="w-4 h-4" />
+            <span>Google</span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

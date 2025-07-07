@@ -21,7 +21,7 @@ export function AuthScreen() {
 
         {/* Auth Forms */}
         <div className="bg-white dark:bg-[#171717] rounded-xl shadow-lg p-8 border border-gray-200 dark:border-[#2e2e2e]">
-          {isSignUp ? <SignUpForm /> : <SignInForm />}
+          {isSignUp ? <SignUpForm onSwitchToSignIn={() => setIsSignUp(false)} /> : <SignInForm />}
           
           <div className="mt-6 text-center">
             <button
