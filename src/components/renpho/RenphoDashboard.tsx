@@ -461,14 +461,14 @@ export function RenphoDashboard() {
             {measurements.length > 0 && (
               <div className="card">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Overview</h3>
-                <RenphoCharts measurements={measurements} filters={filters} />
+                <RenphoCharts measurements={measurements} />
               </div>
             )}
           </div>
         )}
 
         {activeTab === 'charts' && (
-          <RenphoCharts measurements={measurements} filters={filters} />
+          <RenphoCharts measurements={measurements} />
         )}
 
         {activeTab === 'data' && (

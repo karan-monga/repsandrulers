@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { RenphoMeasurement, RenphoFilters } from '@/types/renpho';
+import { RenphoMeasurement } from '@/types/renpho';
 
 interface RenphoChartsProps {
   measurements: RenphoMeasurement[];
