@@ -305,8 +305,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             id: data.user.id,
             email: data.user.email!,
             unit_preference: unitPreference,
-            height: height || null,
-            weight: weight || null,
           });
 
         if (profileError) {
