@@ -62,7 +62,7 @@ interface AuthContextType {
   weightGoal: WeightGoal | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, unitPreference: 'metric' | 'imperial', height?: number, weight?: number) => Promise<void>;
+  signUp: (email: string, password: string, unitPreference: 'metric' | 'imperial') => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (profile: Partial<UserProfile>) => Promise<void>;
@@ -286,7 +286,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, unitPreference: 'metric' | 'imperial', height?: number, weight?: number) => {
+  const signUp = async (email: string, password: string, unitPreference: 'metric' | 'imperial') => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,

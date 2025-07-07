@@ -35,9 +35,7 @@ export function SignUpForm() {
     }
 
     try {
-      const height = formData.height ? parseFloat(formData.height) : undefined;
-      const weight = formData.weight ? parseFloat(formData.weight) : undefined;
-      await signUp(formData.email, formData.password, formData.unitPreference, height, weight);
+      await signUp(formData.email, formData.password, formData.unitPreference);
     } catch (err: any) {
       setError(err.message || 'Failed to create account');
     } finally {
