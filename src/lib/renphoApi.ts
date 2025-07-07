@@ -150,7 +150,14 @@ export const renphoApi = {
 
   // Import CSV data
   async importCSVData(csvData: RenphoCSVRow[]): Promise<number> {
+    // Get current user ID
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
     const measurements = csvData.map(row => ({
+      user_id: user.id, // Add user_id to each measurement
       time_of_measurement: new Date(row['Time of Measurement']).toISOString(),
       weight_lb: parseFloat(row['Weight(lb)']) || 0,
       bmi: parseFloat(row['BMI']) || null,
@@ -196,10 +203,16 @@ export const renphoApi = {
 
   // Clear all measurements
   async clearAllMeasurements(): Promise<void> {
+    // Get current user ID
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
     const { error } = await supabase
       .from('renpho_measurements')
       .delete()
-      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all
+      .eq('user_id', user.id); // Only delete current user's measurements
 
     if (error) throw error;
   },
