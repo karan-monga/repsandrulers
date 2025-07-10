@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Brain, Dumbbell, Clock, Target, User, Sparkles, Plus, Save, Download } from 'lucide-react';
-import { workoutGeneratorApi, GeneratedWorkout, WorkoutDay, WorkoutExercise } from '@/lib/workoutGeneratorApi';
+import { Brain, Dumbbell, Clock, Target, User, Sparkles, Save, Download } from 'lucide-react';
+import { workoutGeneratorApi, GeneratedWorkout } from '@/lib/workoutGeneratorApi';
 
 const goals = [
   { value: 'muscle_building', label: 'Muscle Building', icon: Dumbbell },

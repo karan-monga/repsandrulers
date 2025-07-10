@@ -57,7 +57,7 @@ export const workoutGeneratorApi = {
       const allExercises = await exerciseApi.getExercises();
       
       // Filter exercises based on equipment availability
-      const availableExercises = allExercises.filter(exercise => {
+      const availableExercises = allExercises.filter(() => {
         // For now, assume all exercises are available
         // In the future, we can add equipment filtering logic
         return true;

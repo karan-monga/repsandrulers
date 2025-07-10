@@ -13,13 +13,14 @@ interface HeaderProps {
   onTabChange: (tab: ActiveTab) => void;
 }
 
-const tabTitles = {
+const tabTitles: Record<ActiveTab, string> = {
   dashboard: 'Dashboard',
   add: 'Add Measurement',
   timeline: 'Timeline',
   charts: 'Progress Charts',
   renpho: 'Renpho Data',
   library: 'Exercise Library',
+  'workout-generator': 'AI Workout Generator',
   routines: 'My Routines',
   settings: 'Settings',
 };
