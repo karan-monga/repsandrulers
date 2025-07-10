@@ -65,8 +65,44 @@ export function RenphoCharts({ measurements }: RenphoChartsProps) {
     }
   };
 
+  // Get custom Y-axis domain based on selected chart type
+  const getYAxisDomain = () => {
+    const currentData = getChartData();
+    const values = currentData.map(d => d.value).filter(v => v !== null && v !== undefined);
+    
+    if (values.length === 0) return ['auto', 'auto'];
+    
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min;
+    
+    switch (selectedChart) {
+      case 'weight':
+        // For weight, set range around the data with some padding
+        return [Math.max(0, Math.floor(min - range * 0.1)), Math.ceil(max + range * 0.1)];
+      case 'bodyFat':
+        // For body fat, set range from 0 to max with padding
+        return [0, Math.ceil(max + range * 0.1)];
+      case 'muscleMass':
+        // For muscle mass, set range around the data
+        return [Math.max(0, Math.floor(min - range * 0.1)), Math.ceil(max + range * 0.1)];
+      case 'bodyWater':
+        // For body water, set range from 0 to max with padding
+        return [0, Math.ceil(max + range * 0.1)];
+      case 'bmi':
+        // For BMI, set range from 0 to max with padding
+        return [0, Math.ceil(max + range * 0.1)];
+      case 'bmr':
+        // For BMR, set range around the data
+        return [Math.max(0, Math.floor(min - range * 0.1)), Math.ceil(max + range * 0.1)];
+      default:
+        return ['auto', 'auto'];
+    }
+  };
+
   const currentChartData = getChartData();
   const selectedChartConfig = chartTypes.find(chart => chart.id === selectedChart);
+  const yAxisDomain = getYAxisDomain();
 
   if (measurements.length === 0) {
     return (
@@ -138,7 +174,11 @@ export function RenphoCharts({ measurements }: RenphoChartsProps) {
                   textAnchor="end"
                   height={80}
                 />
-                <YAxis stroke="#9CA3AF" fontSize={12} />
+                <YAxis 
+                  stroke="#9CA3AF" 
+                  fontSize={12}
+                  domain={yAxisDomain}
+                />
                 <Tooltip 
                   contentStyle={{
                     backgroundColor: '#1F2937',
@@ -167,7 +207,11 @@ export function RenphoCharts({ measurements }: RenphoChartsProps) {
                   textAnchor="end"
                   height={80}
                 />
-                <YAxis stroke="#9CA3AF" fontSize={12} />
+                <YAxis 
+                  stroke="#9CA3AF" 
+                  fontSize={12}
+                  domain={yAxisDomain}
+                />
                 <Tooltip 
                   contentStyle={{
                     backgroundColor: '#1F2937',
@@ -242,7 +286,11 @@ export function RenphoCharts({ measurements }: RenphoChartsProps) {
                 textAnchor="end"
                 height={80}
               />
-              <YAxis stroke="#9CA3AF" fontSize={12} />
+              <YAxis 
+                stroke="#9CA3AF" 
+                fontSize={12}
+                domain={['auto', 'auto']}
+              />
               <Tooltip 
                 contentStyle={{
                   backgroundColor: '#1F2937',
