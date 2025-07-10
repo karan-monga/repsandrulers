@@ -18,6 +18,7 @@ import { RenphoFilters } from '@/types/renpho';
 import { RenphoImport } from './RenphoImport';
 import { RenphoCharts } from './RenphoCharts';
 import { RenphoDataTable } from './RenphoDataTable';
+import { AIInsights } from './AIInsights';
 
 export function RenphoDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'data' | 'import'>('overview');
@@ -464,6 +465,9 @@ export function RenphoDashboard() {
                 <RenphoCharts measurements={measurements} />
               </div>
             )}
+
+            {/* AI Progress Insights */}
+            <AIInsights measurements={measurements} stats={stats || null} />
           </div>
         )}
 
