@@ -10,9 +10,10 @@ import { Charts } from '../charts/Charts';
 import { Settings } from '../settings/Settings';
 import { LibraryPage } from '../exercises/LibraryPage';
 import { RenphoDashboard } from '../renpho/RenphoDashboard';
+import { WorkoutGenerator } from '../workout/WorkoutGenerator';
 import { Onboarding, isOnboardingCompleted } from '../onboarding/Onboarding';
 
-export type ActiveTab = 'dashboard' | 'add' | 'timeline' | 'charts' | 'renpho' | 'library' | 'routines' | 'settings';
+export type ActiveTab = 'dashboard' | 'add' | 'timeline' | 'charts' | 'renpho' | 'library' | 'workout-generator' | 'routines' | 'settings';
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -47,6 +48,8 @@ export function Dashboard() {
         return <RenphoDashboard />;
       case 'library':
         return <LibraryPage />;
+      case 'workout-generator':
+        return <WorkoutGenerator />;
       case 'routines':
         return <div className="text-center py-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">My Routines</h2>

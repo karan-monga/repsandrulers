@@ -10,7 +10,8 @@ import {
   X,
   Dumbbell,
   Calendar,
-  Scale
+  Scale,
+  Brain
 } from 'lucide-react';
 import { ActiveTab } from './Dashboard';
 
@@ -28,6 +29,7 @@ const navigation = [
   { id: 'charts', name: 'Charts', icon: BarChart3 },
   { id: 'renpho', name: 'Renpho Data', icon: Scale },
   { id: 'library', name: 'Exercise Library', icon: Dumbbell },
+  { id: 'workout-generator', name: 'AI Workout Generator', icon: Brain },
   { id: 'routines', name: 'My Routines', icon: Calendar },
   { id: 'settings', name: 'Settings', icon: Settings },
 ];
