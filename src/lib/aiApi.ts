@@ -29,43 +29,9 @@ export const aiApi = {
         timeRange: data.timeRange || 'recent'
       };
 
-      // Create a comprehensive prompt for GPT
-      const prompt = `Analyze this fitness data and provide actionable insights:
-
-User Data:
-- Total measurements: ${analysisData.totalMeasurements}
-- Date range: ${analysisData.dateRange.first} to ${analysisData.dateRange.last}
-- Current averages: Weight: ${analysisData.averages.weight_lb.toFixed(1)}lb, Body Fat: ${analysisData.averages.body_fat_percent.toFixed(1)}%, Muscle Mass: ${analysisData.averages.muscle_mass_lb.toFixed(1)}lb
-- Trends: Weight change: ${analysisData.trends.weight_lb > 0 ? '+' : ''}${analysisData.trends.weight_lb.toFixed(1)}lb, Body Fat change: ${analysisData.trends.body_fat_percent > 0 ? '+' : ''}${analysisData.trends.body_fat_percent.toFixed(1)}%, Muscle Mass change: ${analysisData.trends.muscle_mass_lb > 0 ? '+' : ''}${analysisData.trends.muscle_mass_lb.toFixed(1)}lb
-- User goals: ${analysisData.userGoals}
-
-Recent measurements (last 5):
-${analysisData.recentMeasurements.map(m => 
-  `- ${new Date(m.time_of_measurement).toLocaleDateString()}: Weight ${m.weight_lb.toFixed(1)}lb, Body Fat ${m.body_fat_percent?.toFixed(1) || 'N/A'}%, Muscle ${m.muscle_mass_lb?.toFixed(1) || 'N/A'}lb`
-).join('\n')}
-
-Please provide 3-5 insights in this JSON format:
-[
-  {
-    "type": "positive|warning|suggestion|achievement",
-    "title": "Brief title",
-    "description": "Detailed explanation",
-    "actionItems": ["Action 1", "Action 2"],
-    "confidence": 0.85
-  }
-]
-
-Focus on:
-1. Progress patterns and trends
-2. Potential plateaus or issues
-3. Achievements and positive changes
-4. Specific, actionable recommendations
-5. Health and fitness best practices
-
-Keep insights practical and encouraging.`;
-
       // For now, we'll simulate AI responses since we need to set up the actual API
-      // In production, you would call the OpenAI API here
+      // In production, you would call the OpenAI API here with a prompt like:
+      // const prompt = `Analyze this fitness data and provide actionable insights...`;
       return this.simulateAIResponse(analysisData);
       
     } catch (error) {
