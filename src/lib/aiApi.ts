@@ -16,11 +16,19 @@ interface AIInsight {
   confidence: number;
 }
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Note: In production, you should use a backend API
-});
+// Initialize OpenAI client only if API key is available
+let openai: OpenAI | null = null;
+
+try {
+  if (import.meta.env.VITE_OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true // Note: In production, you should use a backend API
+    });
+  }
+} catch (error) {
+  console.warn('Failed to initialize OpenAI client:', error);
+}
 
 export const aiApi = {
   async analyzeProgress(data: AIAnalysisRequest): Promise<AIInsight[]> {
@@ -78,6 +86,11 @@ Focus on:
 Keep insights practical and encouraging. Return only valid JSON.`;
 
       // Call OpenAI API
+      if (!openai) {
+        console.warn('OpenAI client not initialized, using simulated responses');
+        return this.simulateAIResponse(analysisData);
+      }
+
       const completion = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [
