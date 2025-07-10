@@ -19,6 +19,7 @@
     "firebase": "^10.0.0",
     "framer-motion": "^11.0.0",
     "lucide-react": "^0.344.0",
+    "openai": "^5.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-joyride": "^2.9.3",
