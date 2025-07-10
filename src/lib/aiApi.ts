@@ -134,109 +134,105 @@ Keep insights practical and encouraging. Return only valid JSON.`;
   simulateAIResponse(data: any): AIInsight[] {
     const insights: AIInsight[] = [];
     
-    // Analyze weight trends
-    if (data.trends.weight_lb < -2) {
+    // Always provide at least one insight based on current data
+    const weightTrend = data.trends.weight_lb;
+    const bodyFatTrend = data.trends.body_fat_percent;
+    const muscleTrend = data.trends.muscle_mass_lb;
+    const avgBodyFat = data.averages.body_fat_percent;
+    
+    // Weight trend analysis (more generous thresholds)
+    if (weightTrend < -1) {
       insights.push({
         type: 'positive',
-        title: 'Great Weight Loss Progress!',
-        description: `You've lost ${Math.abs(data.trends.weight_lb).toFixed(1)} pounds recently. This is a healthy rate of weight loss that suggests you're in a good caloric deficit.`,
+        title: 'Weight Loss Progress!',
+        description: `You've lost ${Math.abs(weightTrend).toFixed(1)} pounds recently. Keep up the great work!`,
         actionItems: [
-          'Maintain your current nutrition and exercise routine',
-          'Consider adding strength training to preserve muscle mass',
-          'Monitor energy levels and adjust if needed'
+          'Maintain your current routine',
+          'Consider adding strength training',
+          'Monitor your energy levels'
         ],
-        confidence: 0.9
+        confidence: 0.85
       });
-    } else if (data.trends.weight_lb > 2) {
+    } else if (weightTrend > 1) {
       insights.push({
         type: 'warning',
-        title: 'Weight Gain Detected',
-        description: `You've gained ${data.trends.weight_lb.toFixed(1)} pounds recently. This might be muscle gain, but let's check your body composition.`,
+        title: 'Weight Gain Noticed',
+        description: `You've gained ${weightTrend.toFixed(1)} pounds recently. Let's review your approach.`,
         actionItems: [
-          'Review your nutrition and portion sizes',
-          'Increase cardio or activity level',
-          'Track your body fat percentage more closely'
+          'Review your nutrition plan',
+          'Increase activity level',
+          'Track body composition changes'
         ],
-        confidence: 0.8
+        confidence: 0.75
       });
-    }
-
-    // Analyze body fat trends
-    if (data.trends.body_fat_percent < -1) {
-      insights.push({
-        type: 'achievement',
-        title: 'Body Fat Reduction Success!',
-        description: `Your body fat percentage has decreased by ${Math.abs(data.trends.body_fat_percent).toFixed(1)}%. This indicates you're losing fat while potentially maintaining muscle.`,
-        actionItems: [
-          'Continue with your current routine',
-          'Consider progressive overload in strength training',
-          'Maintain adequate protein intake'
-        ],
-        confidence: 0.95
-      });
-    }
-
-    // Analyze muscle mass trends
-    if (data.trends.muscle_mass_lb > 1) {
-      insights.push({
-        type: 'positive',
-        title: 'Muscle Mass Building!',
-        description: `You've gained ${data.trends.muscle_mass_lb.toFixed(1)} pounds of muscle mass. This is excellent progress for strength and body composition.`,
-        actionItems: [
-          'Continue with progressive overload',
-          'Ensure adequate protein intake (1.6-2.2g per kg body weight)',
-          'Get sufficient sleep for muscle recovery'
-        ],
-        confidence: 0.9
-      });
-    }
-
-    // Check for plateaus
-    if (Math.abs(data.trends.weight_lb) < 0.5 && Math.abs(data.trends.body_fat_percent) < 0.5) {
+    } else {
       insights.push({
         type: 'suggestion',
-        title: 'Progress Plateau Detected',
-        description: 'Your measurements have been relatively stable recently. This might indicate a plateau in your progress.',
+        title: 'Stable Weight Maintenance',
+        description: 'Your weight has been relatively stable. This could be good maintenance or a plateau.',
         actionItems: [
-          'Increase workout intensity or frequency',
-          'Adjust your caloric intake',
-          'Try new exercises or training methods',
-          'Consider a deload week then ramp up'
+          'Assess if this is your goal weight',
+          'Consider adjusting your routine',
+          'Focus on body composition improvements'
         ],
         confidence: 0.7
       });
     }
 
-    // General health insights
-    if (data.averages.body_fat_percent > 25) {
+    // Body fat analysis
+    if (bodyFatTrend < -0.5) {
+      insights.push({
+        type: 'achievement',
+        title: 'Body Fat Reduction!',
+        description: `Your body fat percentage decreased by ${Math.abs(bodyFatTrend).toFixed(1)}%. Excellent progress!`,
+        actionItems: [
+          'Continue your current approach',
+          'Maintain protein intake',
+          'Keep up the consistency'
+        ],
+        confidence: 0.9
+      });
+    } else if (avgBodyFat > 20) {
       insights.push({
         type: 'suggestion',
-        title: 'Body Fat Optimization Opportunity',
-        description: `Your current body fat percentage of ${data.averages.body_fat_percent.toFixed(1)}% is above the recommended range for optimal health and performance.`,
+        title: 'Body Fat Optimization',
+        description: `Your current body fat of ${avgBodyFat.toFixed(1)}% could be optimized for better health.`,
         actionItems: [
-          'Focus on creating a moderate caloric deficit',
-          'Increase protein intake to preserve muscle',
-          'Add more cardio sessions',
-          'Consider tracking your macros more closely'
+          'Focus on moderate caloric deficit',
+          'Increase protein intake',
+          'Add more cardio sessions'
         ],
         confidence: 0.8
       });
     }
 
-    // If no specific insights, provide general encouragement
-    if (insights.length === 0) {
+    // Muscle mass analysis
+    if (muscleTrend > 0.5) {
       insights.push({
         type: 'positive',
-        title: 'Consistent Tracking!',
-        description: 'Great job maintaining consistent measurements. Regular tracking is key to long-term success.',
+        title: 'Muscle Building Progress!',
+        description: `You've gained ${muscleTrend.toFixed(1)} pounds of muscle mass. Great work!`,
         actionItems: [
-          'Continue tracking your progress',
-          'Set specific, measurable goals',
-          'Consider adding more measurement types'
+          'Continue progressive overload',
+          'Ensure adequate protein (1.6-2.2g/kg)',
+          'Prioritize sleep for recovery'
         ],
-        confidence: 0.6
+        confidence: 0.85
       });
     }
+
+    // General tracking encouragement (always include)
+    insights.push({
+      type: 'positive',
+      title: 'Consistent Tracking!',
+      description: `You have ${data.totalMeasurements} measurements tracked. Regular monitoring is key to success!`,
+      actionItems: [
+        'Keep tracking consistently',
+        'Set specific goals',
+        'Review progress weekly'
+      ],
+      confidence: 0.8
+    });
 
     return insights.slice(0, 4); // Return top 4 insights
   }
